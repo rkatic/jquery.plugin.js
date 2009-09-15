@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Test - jquery.plugin.js</title>
+    <script src="jquery-1.3.2.js"></script>
+    <script src="jquery.plugin.js"></script>
+</head>
+<body>
+    <script>
+    var t = true && console && console.assert || function( test ) {
+        if ( !test ) {
+            throw new Error();
+        }
+    };
+
+    $.plugin('myPlugin', {
+        init: function() {
+            this.$el.addClass( this._opt.className );
+        },
+        destroy: function() {
+            this.$el.removeClass( this._opt.className );
+            this._super();
+        }
+    })
+    .setOptions({
+        className: "myPlugin"
+    })
+    .extend({
+        build: function( options ) {
+            var div = document.createElement('div');
+            $("body").append( div );
+            return this.create( div, options );
+        }
+    });
+    
+    $.plugin('myPlugin2', $.myPlugin, {
+        init: function() {
+            this._super();
+            if ( this._opt.hidden ) {
+                this.$el.hide();
+            }
+        },
+        remove: function() {
+            this.$el.remove();
+        }
+    })
+    .setOptions({
+        hidden: true
+    });
+    
+    t( $.myPlugin.isPrototypeOf($.myPlugin2) );
+    t( $.myPlugin.fn.isPrototypeOf($.myPlugin2.fn) );
+    
+    var p = $.myPlugin.build();
+    var p2 = $.myPlugin2.build();
+    
+    t( p._class_ === $.myPlugin );
+    t( p2._class_ === $.myPlugin2 );
+    
+    t( p.$el.hasClass("myPlugin") );
+    t( p2.$el.hasClass("myPlugin") );
+    
+    t( $('.myPlugin').data($.myPlugin._id_) === p );
+    
+    p2.remove();
+    t( $('.myPlugin').length === 1 );
+    
+    </script>
+</body>
+</html>
