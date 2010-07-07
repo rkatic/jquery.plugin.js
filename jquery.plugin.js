@@ -193,7 +193,7 @@
         }
     });
 
-    $.plugin.base.fn._options_ = {};
+    $.plugin.base._options_ = {};
         
     $.plugin.base.fn.destroy = function() {
        $.removeData( this.el, this._class_._id_ );
@@ -201,4 +201,5 @@
     };
     
 })(jQuery);
+
 
