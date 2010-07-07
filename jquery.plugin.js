@@ -66,7 +66,7 @@
                 //if first argument is a string then it is a method name to call
                 var ret, instance, id = plugin._id_, args = slice.call(arguments, 1);
                 for ( var i = 0, length = this.length; i < length; ++i ) {
-                    if ( instance = $.data( this[i], id )
+                    if ( ( instance = $.data( this[i], id ) )
                       && ( ret = instance[first].apply(instance, args) ) !== instance ) {
                         return ret;
                     }
@@ -77,7 +77,8 @@
                 //if first argument is a function then call it for each instance
                 var instance, id = plugin._id_, args = slice.call(arguments, 1);
                 for ( var i = 0, length = this.length; i < length; ++i ) {
-                    if ( instance = $.data( this[i], id ) && first.apply(instance, args) === false ) {
+                    if ( ( instance = $.data( this[i], id ) )
+                      && first.apply(instance, args) === false ) {
                         break;
                     }
                 }

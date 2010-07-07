@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <title>Test - jquery.plugin.js</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="jquery.plugin.js"></script>
 </head>
 <body>
     <script>
-    var t = true && console && console.assert || function( test ) {
+    var t = console && console.assert || function( test ) {
         if ( !test ) {
             throw new Error();
         }
@@ -20,6 +20,9 @@
         destroy: function() {
             this.$el.removeClass( this._opt.className );
             this._super();
+        },
+        remove: function() {
+            this.$el.remove();
         }
     })
     .setOptions({
@@ -39,9 +42,6 @@
             if ( this._opt.hidden ) {
                 this.$el.hide();
             }
-        },
-        remove: function() {
-            this.$el.remove();
         }
     })
     .setOptions({
@@ -64,6 +64,9 @@
     
     p2.remove();
     t( $('.myPlugin').length === 1 );
+    
+    $('*').myPlugin("remove");
+    t( $('.myPlugin').length === 0 );
     
     </script>
 </body>
