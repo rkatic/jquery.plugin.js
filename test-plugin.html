@@ -14,7 +14,7 @@
     };
 
     $.plugin('myPlugin', {
-        _options_: {
+        options: {
             className: "myPlugin"
         },
         init: function() {
@@ -37,7 +37,7 @@
     });
     
     $.plugin('myPlugin2', $.myPlugin, {
-        _options_: {
+        options: {
             hidden: true
         },
         init: function() {

@@ -242,13 +242,15 @@
 	$.plugin.base = $.base.__subclass();
 	
 	extend( $.plugin.base.fn, {
-		_options_: {},
+		options: {},
 	
 		extend: function( props ) {
+			var options = this.options;
 			$.base.extend.call( this, props );
+			this.options = options;
 			
-			if ( props._options_ ) {
-				extend( this._options_, props._options_ )
+			if ( props.options ) {
+				extend( this.options, props.options )
 			}
 			
 			return this;
@@ -284,7 +286,7 @@
 			instance.element = $(el).bind('remove', function(){ instance.destroy(); });
 			$.data( el, this._id_, instance );
 			
-			instance.options = extend( extend( {}, instance._options_ ), options );
+			instance.options = extend( extend( {}, instance.options ), options );
 			
 			instance.init();
 			
@@ -294,7 +296,7 @@
 		__subclass: function() {
 			var rv = $.base.__subclass.call( this );
 			
-			rv.fn._options_ = object( this.fn._options_ );
+			rv.fn.options = object( this.fn.options );
 			
 			return rv;
 		}
