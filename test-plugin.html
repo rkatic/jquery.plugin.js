@@ -14,19 +14,19 @@
     };
 
     $.plugin('myPlugin', {
+        _options_: {
+            className: "myPlugin"
+        },
         init: function() {
-            this.$el.addClass( this._opt.className );
+            this.element.addClass( this.options.className );
         },
         destroy: function() {
-            this.$el.removeClass( this._opt.className );
+            this.element.removeClass( this.options.className );
             this._super();
         },
         remove: function() {
-            this.$el.remove();
+            this.element.remove();
         }
-    })
-    .setOptions({
-        className: "myPlugin"
     })
     .extend({
         build: function( options ) {
@@ -37,15 +37,15 @@
     });
     
     $.plugin('myPlugin2', $.myPlugin, {
+        _options_: {
+            hidden: true
+        },
         init: function() {
             this._super();
-            if ( this._opt.hidden ) {
-                this.$el.hide();
+            if ( this.options.hidden ) {
+                this.element.hide();
             }
         }
-    })
-    .setOptions({
-        hidden: true
     });
     
     t( $.myPlugin.isPrototypeOf($.myPlugin2) );
@@ -57,8 +57,8 @@
     t( p._class_ === $.myPlugin );
     t( p2._class_ === $.myPlugin2 );
     
-    t( p.$el.hasClass("myPlugin") );
-    t( p2.$el.hasClass("myPlugin") );
+    t( p.element.hasClass("myPlugin") );
+    t( p2.element.hasClass("myPlugin") );
     
     t( $('.myPlugin').data($.myPlugin._id_) === p );
     
