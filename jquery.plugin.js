@@ -57,7 +57,7 @@
 	}
 	
 	function override( dst, src ) {
-		var value, parent = dst._parent_ || dst._class_._parent_.fn;
+		var value, parent = dst._parent_;
 		
 		for ( var name in src ) {
 			if ( !specialTest.test(name) ) {
@@ -162,7 +162,7 @@
 		
 		isSuperOf: o.isPrototypeOf || function(o) {
 			var prefix = this._id_ + ':';
-			return o && ( o._id_ + '' ).slice( 0, prefix.length ) === prefix || false;
+			return !!o && ( o._id_ + '' ).slice( 0, prefix.length ) === prefix;
 		},
 	
 		// Static method to use to create an instance.
@@ -179,6 +179,7 @@
 			var cls = object( this );
 			cls.fn = object( this.fn );
 			cls._parent_ = this;
+			cls.fn._parent_ = this.fn;
 			cls._id_ = this._id_ + ':' + ( ++idCounter );
 			cls.fn._class_ = cls;
 			return cls;
